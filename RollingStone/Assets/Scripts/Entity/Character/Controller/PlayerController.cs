@@ -12,6 +12,11 @@ public class PlayerController : CharacterController
 
             CallMoveEvent(direction);
         }
+
+        if(context.phase == InputActionPhase.Canceled)
+        {
+            CallMoveEvent(Vector2.zero);
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)

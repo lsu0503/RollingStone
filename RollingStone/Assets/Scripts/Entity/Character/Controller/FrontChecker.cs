@@ -15,9 +15,9 @@ public class FrontChecker : MonoBehaviour
 
     private void Start()
     {
-        for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (1.0f * i), transform.position.y + (1.0f * j), transform.position.z + CheckLength), transform.forward);
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (0.5f * (i - 1)), transform.position.y + 0.2f + (0.5f * j), transform.position.z + CheckLength), transform.forward);
     }
 
     private void FixedUpdate()
@@ -50,7 +50,7 @@ public class FrontChecker : MonoBehaviour
 
         foreach (Ray ray in rays)
         {
-            if (Physics.Raycast(ray, CheckLength, targetLayer))
+            if (Physics.Raycast(ray, CheckLength + 0.1f, targetLayer))
             {
                 isCollisp = true;
                 break;

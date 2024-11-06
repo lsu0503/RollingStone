@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -8,7 +10,7 @@ public class CharacterMovement : MonoBehaviour
     private bool moveActive;
 
     private bool isJumpCharge;
-    private float JumpingTime;
+    private float jumpChargeTime;
 
     private bool isOnDash;
     private float DashStartTime;
@@ -20,12 +22,21 @@ public class CharacterMovement : MonoBehaviour
     private bool isWallOnFront;
 
     private CharacterController controller;
-    
+    private Rigidbody rigid;
+
+    [Header("Value for Text")]
+    public float dashSpeed;
+    public float dashTime;
+    public float jumpPower;
+    public float jumpChargeMax;
+    public float moveSpeed;
+
     private void Awake()
     {
         groundChecker = GetComponent<GroundChecker>();
         controller = GetComponent<CharacterController>();
         frontChecker = GetComponent<FrontChecker>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -33,86 +44,112 @@ public class CharacterMovement : MonoBehaviour
         groundChecker.OnLandingEvent += OnLanding;
         groundChecker.OnTakeOffEvent += OnTakeOff;
 
+        frontChecker.OnCollispEvent += OnCollisp;
+        frontChecker.OnGetOffEvent += OnEscapeFromWall;
+
         controller.OnMoveEvent += OnMove;
         controller.OnJumpEvent += OnJump;
         controller.OnDashEvent += OnDash;
+
+        isOnGround = true;
+        isWallOnFront = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isOnGround)
         {
-            if (isJumpCharge)
+            if (!isOnDash)
             {
-                JumpingTime += Time.deltaTime;
-            }
-
-            else
-            {
-                if (isOnDash)
+                if (isJumpCharge)
                 {
-
+                    if (jumpChargeTime < jumpChargeMax)
+                    {
+                        jumpChargeTime += Time.deltaTime;
+                        jumpChargeMax = Mathf.Clamp(jumpChargeTime, 0.0f, jumpChargeMax);
+                    }
                 }
 
                 else
                 {
-                    moveActive = true;
+                    if(moveDirection.magnitude > threshold)
+                        Move();
+
+                    else
+                        rigid.velocity = new Vector3(0.0f, rigid.velocity.y, 0.0f);
                 }
             }
         }
+    }
+
+    private void Jump(float time)
+    {
+        rigid.AddForce(Vector3.up * jumpPower * time, ForceMode.VelocityChange);
+    }
+
+    private void Move()
+    {
+        if (!isWallOnFront)
+        {
+            Vector3 moveVelocity = new Vector3(moveDirection.x, 0.0f, moveDirection.y) * moveSpeed;
+            moveVelocity.y = rigid.velocity.y;
+            rigid.velocity = moveVelocity;
+        }
 
         else
+            rigid.velocity = new Vector3(0.0f, rigid.velocity.y, 0.0f);
+    }
+
+    private IEnumerator Dash()
+    {
+        while(Time.time - DashStartTime < dashTime)
         {
-            if (isOnDash)
-            {
-
-            }
-
-            else
-            {
-
-            }
+            rigid.velocity = transform.forward * dashSpeed;
+            yield return null;
         }
+
+        isOnDash = false;
     }
 
-    private void JumpActivate()
+    public void OnMove(Vector2 direction)
     {
-
+        moveDirection = direction;
     }
 
-    private void Movement()
-    {
-        
-    }
-
-    private void OnMove(Vector2 direction)
-    {
-        if(direction.sqrMagnitude > threshold)
-        {
-            moveDirection = direction;
-        }
-    }
-
-    private void OnJump(bool isOnAction)
+    public void OnJump(bool isOnAction)
     {
         isJumpCharge = isOnAction;
 
         if (!isOnAction)
-            JumpActivate();
+        {
+            Jump(jumpChargeTime);
+            jumpChargeTime = 0.0f;
+        }
     }
 
-    private void OnDash()
+    public void OnDash()
     {
         isOnDash = true;
         DashStartTime = Time.time;
+        StartCoroutine(Dash());
     }
 
-    private void OnLanding()
+    public void OnCollisp()
+    {
+        isWallOnFront = true;
+    }
+
+    public void OnEscapeFromWall()
+    {
+        isWallOnFront = false;
+    }
+
+    public void OnLanding()
     {
         isOnGround = true;
     }
 
-    private void OnTakeOff()
+    public void OnTakeOff()
     {
         isOnGround = false;
     }

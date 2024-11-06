@@ -15,9 +15,9 @@ public class GroundChecker : MonoBehaviour
 
     private void Start()
     {
-        for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (1.0f * i), transform.position.y + CheckHeight, transform.position.z + (1.0f * j)), Vector3.down);
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (1.0f * (i - 1)), transform.position.y + CheckHeight, transform.position.z + (1.0f * (j - 1))), Vector3.down);
     }
 
     private void FixedUpdate()
@@ -50,7 +50,7 @@ public class GroundChecker : MonoBehaviour
 
         foreach(Ray ray in rays)
         {
-            if (Physics.Raycast(ray, CheckHeight, targetLayer))
+            if (Physics.Raycast(ray, CheckHeight + 0.1f, targetLayer))
             {
                 isLanding = true;
                 break;
@@ -62,11 +62,13 @@ public class GroundChecker : MonoBehaviour
 
     private void CallTakeOffEvent()
     {
+        Debug.Log("1");
         OnLandingEvent?.Invoke();
     }
 
     private void CallLandingEvent()
     {
+        Debug.Log("2");
         OnTakeOffEvent?.Invoke();
     }
 }
