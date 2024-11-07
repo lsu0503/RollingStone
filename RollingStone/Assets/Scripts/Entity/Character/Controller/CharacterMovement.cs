@@ -66,7 +66,7 @@ public class CharacterMovement : MonoBehaviour
                     if (jumpChargeTime < jumpChargeMax)
                     {
                         jumpChargeTime += Time.deltaTime;
-                        jumpChargeMax = Mathf.Clamp(jumpChargeTime, 0.0f, jumpChargeMax);
+                        jumpChargeTime = Mathf.Clamp(jumpChargeTime, 0.0f, jumpChargeMax);
                     }
                 }
 
@@ -84,6 +84,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Jump(float time)
     {
+        Debug.Log(time);
         rigid.AddForce(Vector3.up * jumpPower * time, ForceMode.VelocityChange);
     }
 

@@ -6,19 +6,11 @@ public class GroundChecker : MonoBehaviour
     [SerializeField] private float CheckRate;
     [SerializeField] private float CheckHeight;
     [SerializeField] private LayerMask targetLayer;
-    private float CheckTime;
+    private float CheckTime = 0.0f;
     private bool isOnGround;
 
     public event Action OnLandingEvent;
     public event Action OnTakeOffEvent;
-    private Ray[] rays = new Ray[9];
-
-    private void Start()
-    {
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (1.0f * (i - 1)), transform.position.y + CheckHeight, transform.position.z + (1.0f * (j - 1))), Vector3.down);
-    }
 
     private void FixedUpdate()
     {
@@ -46,29 +38,22 @@ public class GroundChecker : MonoBehaviour
 
     private bool CheckGround()
     {
-        bool isLanding = false;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                if (Physics.Raycast(transform.position + (0.5f * (i - 1) * transform.right) + (0.5f * (j - 1) * transform.forward + (CheckHeight * Vector3.up)),
+                                    Vector3.down, CheckHeight + 0.1f, targetLayer))
+                    return true;
 
-        foreach(Ray ray in rays)
-        {
-            if (Physics.Raycast(ray, CheckHeight + 0.1f, targetLayer))
-            {
-                isLanding = true;
-                break;
-            }
-        }
-
-        return isLanding;
+        return false;
     }
 
     private void CallTakeOffEvent()
     {
-        Debug.Log("1");
-        OnLandingEvent?.Invoke();
+        OnTakeOffEvent?.Invoke();
     }
 
     private void CallLandingEvent()
     {
-        Debug.Log("2");
-        OnTakeOffEvent?.Invoke();
+        OnLandingEvent?.Invoke();
     }
 }

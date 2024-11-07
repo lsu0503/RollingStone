@@ -17,7 +17,7 @@ public class FrontChecker : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
-                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (0.5f * (i - 1)), transform.position.y + 0.2f + (0.5f * j), transform.position.z + CheckLength), transform.forward);
+                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (0.2f * (i - 1)), transform.position.y + 0.2f + (0.5f * j), transform.position.z + CheckLength), transform.forward);
     }
 
     private void FixedUpdate()
