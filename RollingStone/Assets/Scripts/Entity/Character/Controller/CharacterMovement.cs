@@ -84,12 +84,12 @@ public class CharacterMovement : MonoBehaviour
 
     private void Jump(float time)
     {
-        Debug.Log(time);
         rigid.AddForce(Vector3.up * jumpPower * time, ForceMode.VelocityChange);
     }
 
     private void Move()
     {
+        Debug.Log(isWallOnFront);
         if (!isWallOnFront)
         {
             Vector3 moveVelocity = new Vector3(moveDirection.x, 0.0f, moveDirection.y) * moveSpeed;
@@ -105,7 +105,12 @@ public class CharacterMovement : MonoBehaviour
     {
         while(Time.time - DashStartTime < dashTime)
         {
-            rigid.velocity = transform.forward * dashSpeed;
+            if (!isWallOnFront)
+                rigid.velocity = transform.forward * dashSpeed;
+
+            else
+                rigid.velocity = Vector3.zero;
+
             yield return null;
         }
 

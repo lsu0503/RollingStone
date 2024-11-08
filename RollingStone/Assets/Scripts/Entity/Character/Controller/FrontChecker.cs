@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class FrontChecker : MonoBehaviour
 {
+    [SerializeField] private Transform origin;
+    [SerializeField] private Transform originContainer;
+    [SerializeField] private float CheckThreashold;
     [SerializeField] private float CheckRate;
     [SerializeField] private float CheckLength;
     [SerializeField] private LayerMask targetLayer;
@@ -11,13 +14,29 @@ public class FrontChecker : MonoBehaviour
 
     public event Action OnCollispEvent;
     public event Action OnGetOffEvent;
-    private Ray[] rays = new Ray[9];
+    private Ray[,] rays = new Ray[3, 3];
+
+    private CharacterController controller;
+    private Vector3 moveDir;
+
+    private void Awake()
+    {
+        controller = GetComponent<CharacterController>();
+    }
 
     private void Start()
     {
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                rays[(i * 3) + j] = new Ray(new Vector3(transform.position.x + (0.2f * (i - 1)), transform.position.y + 0.2f + (0.5f * j), transform.position.z + CheckLength), transform.forward);
+        controller.OnMoveEvent += SetFront;
+    }
+
+    private void SetFront(Vector2 direction)
+    {
+        if (direction.magnitude > CheckThreashold)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            originContainer.localRotation = Quaternion.Euler(0.0f, -angle, 0.0f);
+        }
     }
 
     private void FixedUpdate()
@@ -46,27 +65,24 @@ public class FrontChecker : MonoBehaviour
 
     private bool CheckFront()
     {
-        bool isCollisp = false;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                rays[i, j] = new Ray(origin.position + (origin.right * (0.35f * (i - 1))) + (origin.up * (0.5f * (j - 1))) - (origin.forward * CheckLength), origin.forward);
 
         foreach (Ray ray in rays)
-        {
             if (Physics.Raycast(ray, CheckLength + 0.1f, targetLayer))
-            {
-                isCollisp = true;
-                break;
-            }
-        }
+                return true;
 
-        return isCollisp;
+        return false;
     }
 
     private void CallGetOffEvent()
     {
-        OnCollispEvent?.Invoke();
+        OnGetOffEvent?.Invoke();
     }
 
     private void CallCollispEvent()
     {
-        OnGetOffEvent?.Invoke();
+        OnCollispEvent?.Invoke();
     }
 }
