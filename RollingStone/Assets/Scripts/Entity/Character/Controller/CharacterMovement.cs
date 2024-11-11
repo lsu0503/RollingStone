@@ -21,39 +21,43 @@ public class CharacterMovement : MonoBehaviour
     private FrontChecker frontChecker;
     private bool isWallOnFront;
 
+    private DirectionChecker directionChecker;
+    private bool isWallOnDirection;
+
     private CharacterController controller;
     private Rigidbody rigid;
-
-    [Header("Value for Text")]
-    public float dashSpeed;
-    public float dashTime;
-    public float jumpPower;
-    public float jumpChargeMax;
-    public float moveSpeed;
+    private PlayerInfo info;
 
     private void Awake()
     {
         groundChecker = GetComponent<GroundChecker>();
         controller = GetComponent<CharacterController>();
         frontChecker = GetComponent<FrontChecker>();
+        directionChecker = GetComponent<DirectionChecker>();
         rigid = GetComponent<Rigidbody>();
     }
 
     private void Start()
     {
-        groundChecker.OnLandingEvent += OnLanding;
+        info = GameManager.Instance.player.info;
+
+        groundChecker.OnCollisionEvent += OnLanding;
         groundChecker.OnTakeOffEvent += OnTakeOff;
 
-        frontChecker.OnCollispEvent += OnCollisp;
-        frontChecker.OnGetOffEvent += OnEscapeFromWall;
+        directionChecker.OnCollisionEvent += OnCollispOnDirection;
+        directionChecker.OnTakeOffEvent += OnEscapeFromWallOnDirection;
+
+        frontChecker.OnCollisionEvent += OnCollispOnFront;
+        frontChecker.OnTakeOffEvent += OnEscapeFromWallOnFront;
 
         controller.OnMoveEvent += OnMove;
         controller.OnJumpEvent += OnJump;
         controller.OnDashEvent += OnDash;
 
         isOnGround = true;
-        isWallOnFront = false;
+        isWallOnDirection = false;
     }
+
 
     private void FixedUpdate()
     {
@@ -63,10 +67,10 @@ public class CharacterMovement : MonoBehaviour
             {
                 if (isJumpCharge)
                 {
-                    if (jumpChargeTime < jumpChargeMax)
+                    if (jumpChargeTime < info.jumpChargeMax)
                     {
                         jumpChargeTime += Time.deltaTime;
-                        jumpChargeTime = Mathf.Clamp(jumpChargeTime, 0.0f, jumpChargeMax);
+                        jumpChargeTime = Mathf.Clamp(jumpChargeTime, 0.0f, info.jumpChargeMax);
                     }
                 }
 
@@ -84,15 +88,15 @@ public class CharacterMovement : MonoBehaviour
 
     private void Jump(float time)
     {
-        rigid.AddForce(Vector3.up * jumpPower * time, ForceMode.VelocityChange);
+        rigid.AddForce(Vector3.up * info.jumpPower * time, ForceMode.VelocityChange);
     }
 
     private void Move()
     {
-        Debug.Log(isWallOnFront);
-        if (!isWallOnFront)
+        Debug.Log(isWallOnDirection);
+        if (!isWallOnDirection)
         {
-            Vector3 moveVelocity = new Vector3(moveDirection.x, 0.0f, moveDirection.y) * moveSpeed;
+            Vector3 moveVelocity = new Vector3(moveDirection.x, 0.0f, moveDirection.y) * info.moveSpeed;
             moveVelocity.y = rigid.velocity.y;
             rigid.velocity = moveVelocity;
         }
@@ -103,10 +107,10 @@ public class CharacterMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        while(Time.time - DashStartTime < dashTime)
+        while(Time.time - DashStartTime < info.dashTime)
         {
-            if (!isWallOnFront)
-                rigid.velocity = transform.forward * dashSpeed;
+            if (!isWallOnDirection)
+                rigid.velocity = transform.forward * info.dashSpeed;
 
             else
                 rigid.velocity = Vector3.zero;
@@ -140,14 +144,14 @@ public class CharacterMovement : MonoBehaviour
         StartCoroutine(Dash());
     }
 
-    public void OnCollisp()
+    public void OnCollispOnDirection()
     {
-        isWallOnFront = true;
+        isWallOnDirection = true;
     }
 
-    public void OnEscapeFromWall()
+    public void OnEscapeFromWallOnDirection()
     {
-        isWallOnFront = false;
+        isWallOnDirection = false;
     }
 
     public void OnLanding()
@@ -158,5 +162,15 @@ public class CharacterMovement : MonoBehaviour
     public void OnTakeOff()
     {
         isOnGround = false;
+    }
+
+    private void OnCollispOnFront()
+    {
+        isWallOnFront = true;
+    }
+
+    private void OnEscapeFromWallOnFront()
+    {
+        isWallOnFront = false;
     }
 }
