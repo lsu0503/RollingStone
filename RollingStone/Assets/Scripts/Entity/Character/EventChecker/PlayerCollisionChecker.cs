@@ -5,7 +5,7 @@ public interface ICollisionChecker
     public void CheckHit(RaycastHit hit);
 }
 
-public class PlayerCollisionChecker: MonoBehaviour, ICollisionChecker
+public class PlayerCollisionChecker: MonoBehaviour
 {
     private ICollisionChecker[] collisionCheckers;
 

@@ -22,12 +22,12 @@ public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
-            instance = gameObject.AddComponent<T>();
+            instance = this as T;
         }
 
-        else if(instance != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }

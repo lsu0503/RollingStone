@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        movement = GetComponent<CharacterMovement>();
+        controller = GetComponent<PlayerController>();
+        checker = GetComponent<PlayerCollisionChecker>();
+
         GameManager.Instance.player = this;
     }
 }

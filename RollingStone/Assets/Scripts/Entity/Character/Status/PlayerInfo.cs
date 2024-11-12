@@ -1,4 +1,7 @@
-﻿public class PlayerInfo
+﻿using System;
+
+[Serializable]
+public class PlayerInfo
 {
     public float dashSpeed;
     public float dashTime;

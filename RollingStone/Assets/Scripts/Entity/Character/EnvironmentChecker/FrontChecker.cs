@@ -7,7 +7,7 @@ public class FrontChecker : EnvironmentChecker
     private PlayerCollisionChecker checker;
     public RaycastHit hitInfo;
 
-    private void Awake()
+    private void Start()
     {
         checker = GameManager.Instance.player.checker;
     }

@@ -93,7 +93,6 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        Debug.Log(isWallOnDirection);
         if (!isWallOnDirection)
         {
             Vector3 moveVelocity = new Vector3(moveDirection.x, 0.0f, moveDirection.y) * info.moveSpeed;
