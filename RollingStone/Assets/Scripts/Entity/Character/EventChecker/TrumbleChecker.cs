@@ -2,9 +2,15 @@
 
 public class TrumbleChecker : MonoBehaviour, ICollisionChecker
 {
-    public void CheckHit(RaycastHit hit)
-    {
-        if(hit.collider.gameObject.CompareTag("Rock"));
+    private Player player;
+    private PlayerStateMachine stateMachine;
 
+
+    public void CheckHit(GameObject collisionObj)
+    {
+        if (collisionObj.CompareTag("Rock"))
+        {
+            stateMachine.ChangeState("Trumbling");
+        }
     }
 }

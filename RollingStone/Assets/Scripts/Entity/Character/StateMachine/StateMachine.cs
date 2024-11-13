@@ -2,9 +2,7 @@
 {
     public void Enter();
     public void Exit();
-    public void Input();
-    public void Update();
-    public void PhysicsUpdate();
+    public void FixedUpdate(float deltaTime);
 }
 
 public class StateMachine
@@ -18,18 +16,8 @@ public class StateMachine
         curState?.Enter();
     }
 
-    public void Input()
+    public void FixedUpdate(float deltaTime)
     {
-        curState?.Input();
-    }
-
-    public void Update()
-    {
-        curState?.Update();
-    }
-
-    public void PhysicsUpdate()
-    {
-        curState?.PhysicsUpdate();
+        curState?.FixedUpdate(deltaTime);
     }
 }

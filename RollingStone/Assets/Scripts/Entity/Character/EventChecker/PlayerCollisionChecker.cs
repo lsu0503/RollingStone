@@ -2,7 +2,7 @@
 
 public interface ICollisionChecker
 {
-    public void CheckHit(RaycastHit hit);
+    public void CheckHit(GameObject CollisionObj);
 }
 
 public class PlayerCollisionChecker: MonoBehaviour
@@ -14,11 +14,11 @@ public class PlayerCollisionChecker: MonoBehaviour
         collisionCheckers = GetComponents<ICollisionChecker>();
     }
 
-    public void CheckHit(RaycastHit hit)
+    public void CheckHit(GameObject collisionObj)
     {
         foreach(var checker in collisionCheckers)
         {
-            checker.CheckHit(hit);
+            checker.CheckHit(collisionObj);
         }
     }
 }

@@ -25,7 +25,7 @@ public class FrontChecker : EnvironmentChecker
         foreach (Ray ray in rays)
             if (Physics.Raycast(ray, out hitInfo, CheckLength + 0.1f, targetLayer))
             {
-                checker.CheckHit(hitInfo);
+                checker.CheckHit(hitInfo.collider.gameObject);
                 return true;
             }
 

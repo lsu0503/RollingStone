@@ -56,6 +56,7 @@ public class CharacterMovement : MonoBehaviour
 
         isOnGround = true;
         isWallOnDirection = false;
+        isWallOnFront = false;
     }
 
 

@@ -2,9 +2,9 @@
 
 public class GameOverChecker : MonoBehaviour, ICollisionChecker
 {
-    public void CheckHit(RaycastHit hit)
+    public void CheckHit(GameObject collisionObj)
     {
-        if (hit.collider.gameObject.CompareTag("Wall"))
+        if (collisionObj.CompareTag("Wall"))
             GameManager.GameOver();
     }
 }
