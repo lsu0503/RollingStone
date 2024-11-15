@@ -23,3 +23,16 @@
     * 벨트 스크롤이라고 정면을 오른쪽으로 고정한 탓에, 다른 방향 이동이 전혀 적용되지 않고 있었다.
     * 정면 인식을 담당하는 원점용 오브젝트를 하나 만든 뒤, 해당 오브젝트를 회전시킬 부모 오브젝트를 만들어, 이동방향에 맞게 회전하도록 수정하여 해결함.
     * 추가로, 지면과 마찬가지로 여기도 Event 호출 함수에서 반대쪽 Event를 호출하고 있었다. 수정 완료.
+
+# 2주차 진행 사항
+## 이동 시스템
+* 이동 시스템을 단일 스크립트에서 FSM으로 변경.
+  * 장해물에 격돌했을 경우를 위한 Trumbling 상태 추가. [아직 미작업.]
+* 장해물 인식 시스템
+  * 본래는 정면의 벽과 이동 방향 및 정면의 돌을 다른 동작으로 인식하기 위해서 FrontChecker와 DirectionChecker 2개의 컴포넌트를 작업했었다.
+    * 이를 위해서 Raycast를 통해서 주위 환경을 확인하는 클래스들의 부모 클래스로 EnvironmentChecker 클래스를 추가로 작업하고 Refactoring을 실행하였다.
+  * 현재는 CoiilsionChecker로 통일 하면서 FrontChecker와 DirectionChecker는 삭제하였고, EnvironmentChecker는 유지 중.
+* 버그 수정 다수
+  * TLS Allocator ALLOC_TEMP_TLS 오류
+    * Assets -> Reimfort All으로 수정.
+  * 내부 코딩 오류 다수 수정
