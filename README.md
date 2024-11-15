@@ -32,7 +32,7 @@
   * 본래는 정면의 벽과 이동 방향 및 정면의 돌을 다른 동작으로 인식하기 위해서 FrontChecker와 DirectionChecker 2개의 컴포넌트를 작업했었다.
     * 이를 위해서 Raycast를 통해서 주위 환경을 확인하는 클래스들의 부모 클래스로 EnvironmentChecker 클래스를 추가로 작업하고 Refactoring을 실행하였다.
   * 현재는 CoiilsionChecker로 통일 하면서 FrontChecker와 DirectionChecker는 삭제하였고, EnvironmentChecker는 유지 중.
-* 버그 수정 다수
-  * TLS Allocator ALLOC_TEMP_TLS 오류
-    * Assets -> Reimfort All으로 수정.
-  * 내부 코딩 오류 다수 수정
+## 버그 수정 다수
+* TLS Allocator ALLOC_TEMP_TLS 오류
+  * Assets -> Reimfort All으로 수정.
+* 내부 코딩 오류 다수 수정
