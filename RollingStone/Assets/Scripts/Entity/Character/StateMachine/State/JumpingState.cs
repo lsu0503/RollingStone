@@ -3,27 +3,28 @@ using UnityEngine.InputSystem.XR;
 
 public class JumpingState : BaseState
 {
-    private CharacterController controller;
+    private float CheckTime;
+    private float CheckRate;
 
     public JumpingState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
-        controller = player.controller;
     }
 
     public override void Enter()
     {
-        player.rigid.AddForce(new Vector3(0.0f, player.info.jumpPower, 0.0f), ForceMode.VelocityChange);
         controller.OnDashEvent += OnDash;
+        groundChecker.KeepCollisionEvent += OnGround;
     }
 
     public override void Exit()
     {
-        
+        controller.OnDashEvent -= OnDash;
+        groundChecker.KeepCollisionEvent -= OnGround;
     }
 
     public override void FixedUpdate(float deltaTime)
     {
-        
+
     }
 
     public void OnDash()

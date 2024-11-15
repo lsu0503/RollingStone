@@ -5,7 +5,7 @@ public class PlayerStateMachine : StateMachine
 {
     public Player player;
 
-    public Dictionary<string, BaseState> stateDict;
+    public Dictionary<string, BaseState> stateDict = new Dictionary<string, BaseState>();
 
     public PlayerStateMachine(Player player)
     {
@@ -17,6 +17,8 @@ public class PlayerStateMachine : StateMachine
         stateDict.Add("Trumbling", new TrumblingState(this));
 
         GameManager.Instance.GlobalTimeCheckEvent += FixedUpdate;
+
+        ChangeState("Running");
     }
 
     public void ChangeState(string nextStateName)

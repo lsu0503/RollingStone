@@ -3,27 +3,20 @@ using UnityEngine;
 
 public class RunningState : BaseState
 {
-    private Vector2 moveDirection;
-    [SerializeField] private float threshold;
-    private CharacterController controller;
-    private Rigidbody rigid;
+    [SerializeField] private float threshold = ConstCollection.movingThrashold;
 
     public RunningState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
-        controller = player.controller;
-        rigid = player.rigid;
     }
 
     public override void Enter()
     {
-        controller.OnMoveEvent += OnMove;
         controller.OnJumpEvent += OnJump;
         controller.OnDashEvent += OnDash;
     }
 
     public override void Exit()
     {
-        controller.OnMoveEvent -= OnMove;
         controller.OnJumpEvent -= OnJump;
         controller.OnDashEvent -= OnDash;
     }
@@ -44,13 +37,9 @@ public class RunningState : BaseState
         rigid.velocity = moveVelocity;
     }
 
-    public void OnMove(Vector2 direction)
-    {
-        moveDirection = direction;
-    }
-
     public void OnJump(bool isOnAction)
     {
+        player.rigid.AddForce(new Vector3(0.0f, player.info.jumpPower, 0.0f), ForceMode.VelocityChange);
         stateMachine.ChangeState("Jumping");
     }
 

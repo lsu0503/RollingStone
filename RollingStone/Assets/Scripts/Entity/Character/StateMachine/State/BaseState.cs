@@ -1,9 +1,17 @@
-﻿public abstract class BaseState : IState
+﻿using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.InputSystem.XR;
+
+public abstract class BaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     protected Player player;
+    protected Rigidbody rigid;
 
-    private GroundChecker groundChecker;
+    protected CharacterController controller;
+    protected Vector2 moveDirection;
+
+    protected GroundChecker groundChecker;
     protected bool isOnGround;
 
     public BaseState(PlayerStateMachine stateMachine)
@@ -13,7 +21,11 @@
 
         groundChecker = player.gameObject.GetComponent<GroundChecker>();
         groundChecker.OnCollisionEvent += OnGround;
-        groundChecker.OnTakeOffEvent += InAir;
+        groundChecker.ExitCollisionEvent += InAir;
+
+        controller = player.controller;
+        rigid = player.rigid;
+        controller.OnMoveEvent += OnMove;
 
         isOnGround = true;
     }
@@ -23,6 +35,11 @@
     public abstract void Exit();
 
     public abstract void FixedUpdate(float deltaTime);
+
+    public void OnMove(Vector2 direction)
+    {
+        moveDirection = direction;
+    }
 
     public virtual void OnGround()
     {

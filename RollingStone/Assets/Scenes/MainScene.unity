@@ -7988,13 +7988,11 @@ GameObject:
   - component: {fileID: 661300738}
   - component: {fileID: 661300731}
   - component: {fileID: 661300733}
-  - component: {fileID: 661300737}
   - component: {fileID: 661300735}
   - component: {fileID: 661300734}
   - component: {fileID: 661300739}
-  - component: {fileID: 661300742}
-  - component: {fileID: 661300741}
   - component: {fileID: 661300740}
+  - component: {fileID: 661300741}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -8153,19 +8151,6 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &661300737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661300730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5156eb502cf6b409f3e9973227216a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  threshold: 0.5
 --- !u!54 &661300738
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8206,14 +8191,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info:
-    dashSpeed: 5
-    dashTime: 5
+    dashSpeed: 35
+    dashTime: 0.2
     jumpPower: 5
-    jumpChargeMax: 5
     moveSpeed: 5
-  movement: {fileID: 0}
+    trumbleTime: 3
   controller: {fileID: 0}
   checker: {fileID: 0}
+  rigid: {fileID: 0}
 --- !u!114 &661300740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8235,35 +8220,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 661300730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa43f138c38ea041ad3cd32760b7f86, type: 3}
+  m_Script: {fileID: 11500000, guid: 0966920abec03a84c89e5f617e58a4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CheckRate: 0.2
-  CheckLength: 0.1
-  targetLayer:
+  targetLayers:
     serializedVersion: 2
     m_Bits: 64
-  CharacterThick: 0.5
---- !u!114 &661300742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661300730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33617b773510d140b2ac838b2dd1d4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CheckRate: 0.2
-  CheckLength: 0.1
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  origin: {fileID: 945065018}
-  originContainer: {fileID: 1533976359}
-  CheckThreashold: 0.5
 --- !u!1001 &670963373
 PrefabInstance:
   m_ObjectHideFlags: 0

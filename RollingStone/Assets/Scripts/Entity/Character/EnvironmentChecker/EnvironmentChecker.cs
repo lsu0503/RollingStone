@@ -11,8 +11,10 @@ public abstract class EnvironmentChecker : MonoBehaviour
 
     protected Ray[,] rays = new Ray[3, 3];
 
+    public event Action KeepCollisionEvent;
     public event Action OnCollisionEvent;
-    public event Action OnTakeOffEvent;
+    public event Action ExitCollisionEvent;
+    public event Action OffCollisionEvent;
 
     protected virtual void FixedUpdate()
     {
@@ -22,19 +24,23 @@ public abstract class EnvironmentChecker : MonoBehaviour
 
             if (CheckEnvironment())
             {
+                CallKeepCillisionEvent();
+
                 if (!isCollisp)
                 {
                     isCollisp = true;
-                    CallCollisionEvent();
+                    CallOnCollisionEvent();
                 }
             }
 
             else
             {
+                CallOffCollisionEvent();
+
                 if (isCollisp)
                 {
                     isCollisp = false;
-                    CallTakeOffEvent();
+                    CallExitCollisionEvent();
                 }
             }
         }
@@ -44,13 +50,23 @@ public abstract class EnvironmentChecker : MonoBehaviour
 
     protected abstract bool CheckEnvironment();
 
-    protected void CallCollisionEvent()
+    protected void CallOnCollisionEvent()
     {
         OnCollisionEvent?.Invoke();
     }
 
-    protected void CallTakeOffEvent()
+    protected void CallExitCollisionEvent()
     {
-        OnTakeOffEvent?.Invoke();
+        ExitCollisionEvent?.Invoke();
+    }
+
+    protected void CallKeepCillisionEvent()
+    {
+        KeepCollisionEvent?.Invoke();
+    }
+
+    protected void CallOffCollisionEvent()
+    {
+        OffCollisionEvent?.Invoke();
     }
 }

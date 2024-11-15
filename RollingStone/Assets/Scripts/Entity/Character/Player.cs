@@ -3,7 +3,8 @@
 public class Player : MonoBehaviour
 {
     public PlayerInfo info;
-    public CharacterMovement movement;
+    //public CharacterMovement movement;
+    public PlayerStateMachine stateMachine;
     public PlayerController controller;
     public PlayerCollisionChecker checker;
 
@@ -11,11 +12,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        movement = GetComponent<CharacterMovement>();
+        //movement = GetComponent<CharacterMovement>();
         controller = GetComponent<PlayerController>();
         checker = GetComponent<PlayerCollisionChecker>();
+        
         rigid = GetComponent<Rigidbody>();
 
         GameManager.Instance.player = this;
+        stateMachine = new PlayerStateMachine(this);
     }
 }
