@@ -16,7 +16,7 @@ public class PlayerStateMachine : StateMachine
         stateDict.Add("Dashing", new DashingState(this));
         stateDict.Add("Trumbling", new TrumblingState(this));
 
-        GameManager.Instance.GlobalTimeCheckEvent += FixedUpdate;
+        StageManager.Instance.GlobalTimeCheckEvent += FixedUpdate;
 
         ChangeState("Running");
     }

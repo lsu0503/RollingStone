@@ -1,4 +1,6 @@
-﻿public class TrumblingState : BaseState
+﻿using System;
+
+public class TrumblingState : BaseState
 {
     private float trumbleTime;
 
@@ -8,16 +10,15 @@
 
     public override void Enter()
     {
-        GameManager.Instance.velocity -= 0.5f;
-        GameManager.Instance.isTrumbling = true;
-
         trumbleTime = 0.0f;
+        StageManager.Instance.AddVelocity(-0.5f);
+        StageManager.Instance.CallTrumbleStartEvent();
     }
 
     public override void Exit()
     {
-        GameManager.Instance.velocity += 0.5f;
-        GameManager.Instance.isTrumbling = false;
+        StageManager.Instance.AddVelocity(0.5f);
+        StageManager.Instance.CallTrumbleStopEvent();
     }
 
     public override void FixedUpdate(float deltaTime)

@@ -7,7 +7,7 @@ public class CollisionChecker : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.Instance.player;
+        player = StageManager.Instance.player;
     }
 
     private void OnCollisionEnter(Collision collision)

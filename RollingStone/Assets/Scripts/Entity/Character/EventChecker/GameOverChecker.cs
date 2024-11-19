@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class GameOverChecker : MonoBehaviour, ICollisionChecker
+public class GameOverChecker : ICollisionChecker
 {
     public void CheckHit(GameObject collisionObj)
     {
-        if (collisionObj.CompareTag("Wall"))
-            GameManager.GameOver();
+        if (collisionObj.CompareTag("Stone"))
+            StageManager.Instance.GameOver();
     }
 }
