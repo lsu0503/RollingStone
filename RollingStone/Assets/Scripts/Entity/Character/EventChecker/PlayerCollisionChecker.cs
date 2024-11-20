@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public interface ICollisionChecker
 {
@@ -7,11 +8,18 @@ public interface ICollisionChecker
 
 public class PlayerCollisionChecker: MonoBehaviour
 {
-    private ICollisionChecker[] collisionCheckers;
+    private Player player;
+    private List<ICollisionChecker> collisionCheckers = new List<ICollisionChecker>();
 
     private void Awake()
     {
-        collisionCheckers = GetComponents<ICollisionChecker>();
+        player = GetComponent<Player>();
+    }
+
+    private void Start()
+    {
+        collisionCheckers.Add(new TrumbleChecker(player));
+        collisionCheckers.Add(new GameOverChecker());
     }
 
     public void CheckHit(GameObject collisionObj)

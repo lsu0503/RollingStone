@@ -18,14 +18,21 @@ public class StageManager : GenericSingleton<StageManager>
 
     public event Action OnGameOverEvent;
 
+    private void Start()
+    {
+        SetVelocity(3.0f);
+    }
+
     public void GameOver()
     {
         OnGameOverEvent?.Invoke();
+        DestroySingleton();
     }
 
     private void FixedUpdate()
     {
         GlobalTimeCheckEvent?.Invoke(Time.deltaTime);
+        SetVelocity(velocity + 0.5f * Time.deltaTime);
     }
 
     public void SetVelocity(float velocity)

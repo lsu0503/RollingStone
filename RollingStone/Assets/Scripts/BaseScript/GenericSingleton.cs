@@ -34,4 +34,9 @@ public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
         DontDestroyOnLoad(gameObject.transform.root);
     }
+
+    public void DestroySingleton()
+    {
+        Destroy(gameObject);
+    }
 }

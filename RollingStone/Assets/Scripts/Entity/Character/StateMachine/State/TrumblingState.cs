@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class TrumblingState : BaseState
 {
@@ -10,6 +11,7 @@ public class TrumblingState : BaseState
 
     public override void Enter()
     {
+        Debug.Log("1");
         trumbleTime = 0.0f;
         StageManager.Instance.AddVelocity(-0.5f);
         StageManager.Instance.CallTrumbleStartEvent();
@@ -19,6 +21,7 @@ public class TrumblingState : BaseState
     {
         StageManager.Instance.AddVelocity(0.5f);
         StageManager.Instance.CallTrumbleStopEvent();
+        player.transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     public override void FixedUpdate(float deltaTime)
@@ -27,5 +30,7 @@ public class TrumblingState : BaseState
 
         if (trumbleTime >= player.info.trumbleTime)
             stateMachine.ChangeState("Running");
+
+        player.transform.rotation = Quaternion.Euler(0.0f, 0.0f, player.transform.rotation.z + deltaTime * ConstCollection.playerRollingSpeed);
     }
 }

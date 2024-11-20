@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3946933446707536082}
   - component: {fileID: 4521236158591811027}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: RockB
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 7049443248077951312}
   - component: {fileID: 5389752614414415897}
   - component: {fileID: 2147507401163199650}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -19,6 +19,6 @@ public class ScreenMover : MonoBehaviour
 
     private void Update()
     {
-        transform.position = transform.position + Vector3.right * velocity;
+        transform.position = transform.position + Vector3.right * velocity * Time.deltaTime;
     }
 }
