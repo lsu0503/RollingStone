@@ -6,6 +6,11 @@ public class ScreenMover : MonoBehaviour
     private float velocity;
     public float trumbleVelocityReduced;
 
+    private void Awake()
+    {
+        StageManager.Instance.screenMover = this;
+    }
+
     private void Start()
     {
         StageManager.Instance.VelocityChangeEvent += SetVelocity;

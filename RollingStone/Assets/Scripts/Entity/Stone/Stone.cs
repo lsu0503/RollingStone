@@ -31,12 +31,12 @@ public class Stone : MonoBehaviour
     private void FixedUpdate()
     {
         if (isOnProgressing)
-            transform.localPosition += Vector3.right * 0.5f * Time.deltaTime;
+            transform.localPosition += Vector3.right * ConstCollection.stoneProgressingSpeed * Time.deltaTime;
     }
 
     public void Rolling(float delta)
     {
-        float angleDelta = 360.0f * ((rollingVelocity * delta) / (2 * Mathf.PI * 25));
+        float angleDelta = 360.0f * ((rollingVelocity * delta) / (2 * Mathf.PI * ConstCollection.StoneRadius));
         currentRolled -= angleDelta;
         if (currentRolled >= 360.0f)
             currentRolled -= 360.0f;

@@ -10,11 +10,11 @@ public class CollisionChecker : MonoBehaviour
         player = StageManager.Instance.player;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if ((targetLayers & (1 << collision.gameObject.layer)) != 0)
+        if ((targetLayers & (1 << other.gameObject.layer)) != 0)
         {
-            player.checker.CheckHit(collision.gameObject);
+            player.checker.CheckHit(other.gameObject);
         }
     }
 }
