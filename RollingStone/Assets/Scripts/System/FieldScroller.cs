@@ -13,9 +13,7 @@ public class FieldScroller : MonoBehaviour
 
     private void Awake()
     {
-        ScreenMover mover = StageManager.Instance.screenMover;
-        GameObject moverObj = mover.gameObject; // 에러 확인 필요
-        screenTransform = moverObj.transform;
+        screenTransform = StageManager.Instance.screenMover.gameObject.transform;
     }
 
     private void Start()
@@ -33,7 +31,7 @@ public class FieldScroller : MonoBehaviour
 
     private bool CheckCurrentPosition()
     {
-        int checkNum = (int)((screenTransform.position.x - (groundLength / 2.0f)) / groundLength);
+        int checkNum = (int)(screenTransform.position.x / groundLength);
 
         if (checkNum > currentGroundIndex)
         {
@@ -47,7 +45,7 @@ public class FieldScroller : MonoBehaviour
 
     private void MoveGround()
     {
-        groundArray[0].transform.position += Vector3.right * groundLength * 2;
+        groundArray[0].transform.position += new Vector3(groundLength * groundArray.Count, 0.0f, 0.0f);
         groundArray.Add(groundArray[0]);
         groundArray.RemoveAt(0);
     }
